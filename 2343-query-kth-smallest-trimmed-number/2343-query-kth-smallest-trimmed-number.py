@@ -9,7 +9,9 @@ class Solution:
             trimmed_nums = [num[-trim:] for num in nums]
 
             # Step 2: Create a list of tuples with the trimmed number and its original index.
-            nums_with_index = [(int(trimmed_num), i) for i, trimmed_num in enumerate(trimmed_nums)]
+            nums_with_index = []
+            for i, trimmed_num in enumerate(trimmed_nums):
+                nums_with_index.append((int(trimmed_num), i))
 
             # Step 3: Sort the list of tuples based on the trimmed number.
             nums_with_index.sort()
