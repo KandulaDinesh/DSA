@@ -2,23 +2,24 @@ from typing import List
 
 class Solution:
     def smallestTrimmedNumbers(self, nums: List[str], queries: List[List[int]]) -> List[int]:
-        answer = [""] * len(queries)
-        trimmedToTheLast = {}
-        
-        for i, (k, trim) in enumerate(queries):
-            # Check if the trimmed numbers for the current trim value are already calculated.
-            if trim not in trimmedToTheLast.keys():
-                # Create a list of tuples with the trimmed number and its original index.
-                trimmed_nums_with_indices = []
-                for j, num in enumerate(nums):
-                    trimmed_nums_with_indices.append((num[-trim:], j))
+        answer = []
 
-                # Sort the list of tuples and store it in the trimmedToTheLast dictionary.
-                trimmedToTheLast[trim] = sorted(trimmed_nums_with_indices)
+        for k, trim in queries:
+            # Step 1: Trim each number to its rightmost 'trim' digits.
+            trimmed_nums = [num[-trim:] for num in nums]
 
-            # Assign the original index of the kth smallest trimmed number to the answer list.
-            answer[i] = trimmedToTheLast[trim][k - 1][1]
+            # Step 2: Create a list of tuples with the trimmed number and its original index.
+            nums_with_index = [(int(trimmed_num), i) for i, trimmed_num in enumerate(trimmed_nums)]
+
+            # Step 3: Sort the list of tuples based on the trimmed number.
+            nums_with_index.sort()
+
+            # Step 4: Append the original index of the kth smallest trimmed number to the answer list.
+            answer.append(nums_with_index[k - 1][1])
 
         return answer
 
-
+# Example usage:
+solution_instance = Solution()
+result = solution_instance.smallestTrimmedNumbers(["24", "37", "96", "04"], [[2, 1], [2, 2]])
+print(result)  # Expected Output: [3, 0]
